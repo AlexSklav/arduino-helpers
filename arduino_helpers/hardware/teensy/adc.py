@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 import io
 
 import pandas as pd
@@ -64,24 +63,23 @@ SC2.ACREN	Compare function range enable		31.3.6/661
 SC2.ACFE	Compare function enable		31.3.6/661
 '''.strip()
 
-ADC_DESCRIPTIONS = pd.read_csv(io.BytesIO(ADC_DESCRIPTIONS_TSV.encode('utf8')),
-                               sep='\t').set_index('full_name')
-ADC_DESCRIPTIONS.loc[ADC_DESCRIPTIONS.description.isnull(), 'description'] = ''
+ADC_DESCRIPTIONS = pd.read_csv(io.StringIO(ADC_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
+ADC_DESCRIPTIONS['description'].fillna('', inplace=True)
 
 # Mask for the channel selection in ADCx_SC1A,
 # useful if you want to get the channel number from ADCx_SC1A
-ADC_SC1A_CHANNELS = (0x1F)
+ADC_SC1A_CHANNELS = 0x1F
 # 0x1F=31 in the channel2sc1aADCx means the pin doesn't belong to the ADC
 # module
-ADC_SC1A_PIN_INVALID = (0x1F)
+ADC_SC1A_PIN_INVALID = 0x1F
 # max number of pins, size of channel2sc1aADCx
-ADC_MAX_PIN = (44)
+ADC_MAX_PIN = 44
 # Muxsel mask, pins in channel2sc1aADCx with bit 7 set use mux A.
-ADC_SC1A_PIN_MUX = (0x80)
+ADC_SC1A_PIN_MUX = 0x80
 # Differential pin mask, pins in channel2sc1aADCx with bit 6 set are differential pins.
-ADC_SC1A_PIN_DIFF = (0x40)
+ADC_SC1A_PIN_DIFF = 0x40
 # PGA mask. The pins can use PGA on that ADC
-ADC_SC1A_PIN_PGA = (0x80)
+ADC_SC1A_PIN_PGA = 0x80
 
 
 # translate SC1A to pin number
@@ -105,7 +103,7 @@ SC1A_TO_CHANNEL_ADC1 = [
     43]
 
 
-# New version, gives directly the sc1a number. 0x1F=31 deactivates the ADC.
+# The New version gives directly the sc1a number. 0x1F=31 deactivates the ADC.
 CHANNEL_TO_SC1A_ADC0 = [
     # 0-13, we treat them as A0-A13
     5, 14, 8, 9, 13, 12, 6, 7, 15, 4, 0, 19, 3, 21,

@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+# -*- encoding: utf-8 -*-
 from .context import *
 
 from ._version import get_versions

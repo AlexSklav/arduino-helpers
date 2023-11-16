@@ -1,10 +1,7 @@
-from __future__ import absolute_import
-from __future__ import print_function
-import sys
-
+# -*- encoding: utf-8 -*-
 from serial_device import get_serial_ports
 from path_helpers import path
-from arduino_helpers.context import auto_context, Board, Uploader
+from ..context import auto_context, Board, Uploader
 
 
 def parse_args():

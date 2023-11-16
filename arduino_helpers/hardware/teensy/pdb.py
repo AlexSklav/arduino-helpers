@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 import numpy as np
 import pandas as pd
-
 
 PDB_SC_CONT = 0x00000002  # Continuous Mode Enable
 PDB_SC_DMAEN = 0x00008000  # DMA Enable
@@ -17,23 +15,39 @@ PDB0_MOD = 0x40036004  # Modulus Register
 PDB0_SC = 0x40036000  # Status and Control Register
 
 
-def PDB_SC_TRGSEL(n): return (((n) & 15) << 8)  # Trigger Input Source Select
-def PDB_SC_PRESCALER(n): return (((n) & 7) << 12)  # Prescaler Divider Select
-def PDB_SC_MULT(n): return (((n) & 3) << 2)  # Multiplication Factor
-def PDB_SC_LDMOD(n): return (((n) & 3) << 18)  # Load Mode Select
+def PDB_SC_TRGSEL(n: int) -> int:
+    return (n & 15) << 8  # Trigger Input Source Select
 
 
-def get_pdb_divide_params(frequency, F_BUS=int(48e6)):
+def PDB_SC_PRESCALER(n: int) -> int:
+    return (n & 7) << 12  # Prescaler Divider Select
+
+
+def PDB_SC_MULT(n: int) -> int:
+    return (n & 3) << 2  # Multiplication Factor
+
+
+def PDB_SC_LDMOD(n: int) -> int:
+    return (n & 3) << 18  # Load Mode Select
+
+
+def get_pdb_divide_params(frequency: float, F_BUS: int = int(48e6)) -> pd.DataFrame:
+    """
+    Calculate clock division parameters for Programmable Delay Block (PDB) module.
+
+    Args:
+        frequency (float): Desired frequency for the clock signal.
+        F_BUS (int, optional): Bus frequency. Defaults to 48 MHz.
+
+    Returns:
+        pd.DataFrame: DataFrame containing clock division parameters.
+    """
     mult_factor = np.array([1, 10, 20, 40])
     prescaler = np.arange(8)
 
-    clock_divide = (pd.DataFrame([[i, m, p, m * (1 << p)]
-                                  for i, m in enumerate(mult_factor)
-                                  for p in prescaler],
-                                 columns=['mult_', 'mult_factor',
-                                          'prescaler', 'combined'])
-                    .drop_duplicates(subset=['combined'])
-                    .sort_values('combined', ascending=True))
-    clock_divide['clock_mod'] = (F_BUS / frequency
-                                 / clock_divide.combined).astype(int)
-    return clock_divide.loc[clock_divide.clock_mod <= 0xffff]
+    data = [[i, m, p, m * (1 << p)] for i, m in enumerate(mult_factor) for p in prescaler]
+
+    clock_divide = pd.DataFrame(data, columns=['mult_', 'mult_factor', 'prescaler', 'combined'])
+    clock_divide = clock_divide.drop_duplicates(subset=['combined']).sort_values('combined', ascending=True)
+    clock_divide['clock_mod'] = (F_BUS / frequency / clock_divide['combined']).astype(int)
+    return clock_divide[clock_divide['clock_mod'] <= 0xffff]

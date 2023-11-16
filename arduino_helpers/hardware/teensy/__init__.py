@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 import pandas as pd
-from six.moves import range
 
 HIGH = 1
 LOW = 0

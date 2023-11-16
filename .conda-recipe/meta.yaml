@@ -3,56 +3,58 @@
 {% else %}
 {% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] %}
 {% endif %}
+{% set PKG_NAME = 'arduino-helpers' %}
+{% set MODULE_NAME = PKG_NAME.replace('-', '_') %}
 package:
-  name: arduino-helpers
+  name: {{ PKG_NAME }}
   version: {{ GIT_VERSION }}
 
 build:
-  # If this is a new build for the same version, increment the build
-  # number. If you do not include this key, it defaults to 0.
+  # If this is a new build for the same version, increment the build number.
+  # If you do not include this key, it defaults to 0.
   number: 0
   script: python setup.py install --single-version-externally-managed --record record.txt
-  #: .. versionadded:: 0.6
-  noarch: true
+  noarch: python
 
 requirements:
   build:
-    - path_helpers >=0.7
-    #: .. versionchanged:: 0.6
-    #: .. versionchanged:: 0.6.2
-    - python
-    - serial-device >=0.11
-    #: .. versionadded:: 0.6
-    - six
+    - python >=3.8
+    - path-helpers
+    - serial-device
+    - numpy
+    - pandas
 
   run:
-    - path_helpers >=0.7
-    #: .. versionchanged:: 0.6
-    #: .. versionchanged:: 0.6.2
-    - python
-    - serial-device >=0.11
-    #: .. versionadded:: 0.6
-    - six
+    - python >=3.8
+    - path-helpers
+    - serial-device
+    - numpy
+    - pandas
 
-#: .. versionadded:: 0.6
 test:
   imports:
-    - arduino_helpers
-    - arduino_helpers._version
-    - arduino_helpers.bin.upload
-    - arduino_helpers.context
-    - arduino_helpers.hardware.arduino
-    - arduino_helpers.hardware.boards
-    - arduino_helpers.hardware.platform
-    - arduino_helpers.hardware.teensy.adc
-    - arduino_helpers.hardware.teensy.dma
-    - arduino_helpers.hardware.teensy.pdb
-    - arduino_helpers.hardware.teensy.pit
-    - arduino_helpers.hardware.teensy.sim
-    - arduino_helpers.hardware.tools
-    - arduino_helpers.upload
+    - {{ MODULE_NAME }}
+    - {{ MODULE_NAME }}._version
+    - {{ MODULE_NAME }}.bin.upload
+    - {{ MODULE_NAME }}.context
+    - {{ MODULE_NAME }}.hardware.arduino
+    - {{ MODULE_NAME }}.hardware.boards
+    - {{ MODULE_NAME }}.hardware.platform
+    - {{ MODULE_NAME }}.hardware.teensy.adc
+    - {{ MODULE_NAME }}.hardware.teensy.dma
+    - {{ MODULE_NAME }}.hardware.teensy.pdb
+    - {{ MODULE_NAME }}.hardware.teensy.pit
+    - {{ MODULE_NAME }}.hardware.teensy.sim
+    - {{ MODULE_NAME }}.hardware.tools
+    - {{ MODULE_NAME }}.upload
+
+about:
+  home: https://github.com/sci-bots/{{ PKG_NAME }}
+  summary: Helper functions for reading configs, etc. from an installed Arduino directory.
+  license: GPLv2
 
 # source will be downloaded prior to filling in jinja templates
 # Example assumes that this folder has setup.py in it
 source:
-  git_url: ../
+#  git_url: ../
+  path: ..

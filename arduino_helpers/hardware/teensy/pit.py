@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 import io
 import pandas as pd
 
@@ -11,11 +10,8 @@ MCR.MDIS	Module Disable	Disables the module clock. This field must be enabled be
 MCR.FRZ	Freeze	Allows the timers to be stopped when the device enters the Debug mode. 0: Timers continue to run in Debug mode. 1: Timers are stopped in Debug mode.	37.3.1/903
 '''.strip()
 
-REGISTERS_DESCRIPTIONS = pd.read_csv(io.BytesIO(REGISTERS_DESCRIPTIONS_TSV
-                                                .encode('utf8')),
-                                     sep='\t').set_index('full_name')
-REGISTERS_DESCRIPTIONS.loc[REGISTERS_DESCRIPTIONS.description.isnull(),
-                           'description'] = ''
+REGISTERS_DESCRIPTIONS = pd.read_csv(io.StringIO(REGISTERS_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
+REGISTERS_DESCRIPTIONS['description'].fillna('', inplace=True)
 
 
 # Description of Periodic Interrupt Timer Config registers (37.3.2/904 - 37.3.5/906)
@@ -29,8 +25,5 @@ TCTRL.TEN	Timer Enable	Enables or disables the timer. 0: Timer n is disabled. 1:
 TFLG.TIF	Timer Interrupt Flag	Sets to 1 at the end of the timer period. Writing 1 to this flag clears it. Writing 0 has no effect. If enabled, or when TCTRLn[TIE] = 1, TIF causes an interrupt request. 0: Timeout has not yet occurred. 1: Timeout has occurred.	37.3.5/906
 '''.strip()
 
-TIMER_CONFIG_DESCRIPTIONS = \
-    pd.read_csv(io.BytesIO(TIMER_CONFIG_DESCRIPTIONS_TSV.encode('utf8')),
-                sep='\t').set_index('full_name')
-TIMER_CONFIG_DESCRIPTIONS.loc[TIMER_CONFIG_DESCRIPTIONS.description.isnull(),
-                              'description'] = ''
+TIMER_CONFIG_DESCRIPTIONS = pd.read_csv(io.StringIO(TIMER_CONFIG_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
+TIMER_CONFIG_DESCRIPTIONS['description'].fillna('', inplace=True)

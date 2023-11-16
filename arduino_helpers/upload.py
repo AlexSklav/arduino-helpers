@@ -1,13 +1,14 @@
-from __future__ import absolute_import
+# -*- encoding: utf-8 -*-
+from typing import Optional, List
 from serial_device import get_serial_ports
-from . context import (auto_context, Board, Uploader,
-                                     ArduinoContext)
+from .context import (auto_context, Board, Uploader, ArduinoContext)
 
-def upload_firmware(firmware_path, board_name, port=None,
-                    arduino_install_home=None, **kwargs):
-    '''
+
+def upload_firmware(firmware_path: str, board_name: str, port: str = None,
+                    arduino_install_home: str = None, **kwargs) -> bytes:
+    """
     Upload the specified firmware file to the specified board.
-    '''
+    """
     if arduino_install_home is None:
         context = auto_context()
     else:
@@ -18,23 +19,21 @@ def upload_firmware(firmware_path, board_name, port=None,
     if port is None:
         # No serial port was specified.
         if len(available_ports) == 1:
-            # There is only one serial port available, so select it
-            # automatically.
+            # There is only one serial port available, so select it automatically.
             port = available_ports[0]
         else:
-            raise IOError('No serial port was specified.  Please select one of'
-                          ' the following ports: %s' % available_ports)
+            raise IOError(f'No serial port was specified. '
+                          f'Please select one of the following ports: {available_ports}')
     return uploader.upload(firmware_path, port, **kwargs)
 
 
-def upload(board_name, get_firmware, port=None, arduino_install_home=None,
-           **kwargs):
-    '''
+def upload(board_name: str, get_firmware: callable, port: str = None,
+           arduino_install_home: str = None, **kwargs) -> bytes:
+    """
     Upload the first firmware that matches the specified board type.
-    '''
+    """
     firmware_path = get_firmware(board_name)
-    return upload_firmware(firmware_path, board_name, port, arduino_install_home,
-                           **kwargs)
+    return upload_firmware(firmware_path, board_name, port, arduino_install_home, **kwargs)
 
 
 def get_arg_parser():
@@ -49,7 +48,7 @@ def get_arg_parser():
     return parser
 
 
-def parse_args(args=None):
+def parse_args(args: Optional[List[str]] = None):
     """Parses arguments, returns (options, args)."""
     import sys
 
