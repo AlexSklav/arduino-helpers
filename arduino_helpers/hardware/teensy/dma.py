@@ -47,7 +47,7 @@ BITER_ELINKNO.ITER	Beginning Major Iteration Count	See CITER_ELINKNO[CITER].	21.
 '''.strip()
 
 TCD_DESCRIPTIONS = pd.read_csv(io.StringIO(TCD_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-TCD_DESCRIPTIONS['description'].fillna('', inplace=True)
+TCD_DESCRIPTIONS['description'] = TCD_DESCRIPTIONS['description'].fillna('')
 
 
 # Description of DMA registers (21.3.1/391 - 21.3.15/411)
@@ -81,7 +81,7 @@ HRS	Hardware Request Status Register		21.3.15/411
 '''.strip()
 
 REGISTERS_DESCRIPTIONS = pd.read_csv(io.StringIO(REGISTERS_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-REGISTERS_DESCRIPTIONS['description'].fillna('', inplace=True)
+REGISTERS_DESCRIPTIONS['description'] = REGISTERS_DESCRIPTIONS['description'].fillna('')
 
 
 # Description of DMA channel priority register DCHPRI (21.3.16/414)
@@ -93,7 +93,7 @@ CHPRI	Channel n Arbitration Priority	Channel priority when fixed-priority arbitr
 '''.strip()
 
 DCHPRI_DESCRIPTIONS = pd.read_csv(io.StringIO(DCHPRI_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-DCHPRI_DESCRIPTIONS['description'].fillna('', inplace=True)
+DCHPRI_DESCRIPTIONS['description'] = DCHPRI_DESCRIPTIONS['description'].fillna('')
 
 
 # Description of DMA channel priority register DCHPRI (21.3.16/414)
@@ -105,7 +105,7 @@ SOURCE	DMA Channel Source (Slot)	Specifies which DMA source, if any, is routed t
 '''.strip()
 
 MUX_CHCFG_DESCRIPTIONS = pd.read_csv(io.StringIO(MUX_CHCFG_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-MUX_CHCFG_DESCRIPTIONS['description'].fillna('', inplace=True)
+MUX_CHCFG_DESCRIPTIONS['description'] = MUX_CHCFG_DESCRIPTIONS['description'].fillna('')
 
 DMAMUX_SOURCE_ADC0 = 40  # from `kinetis.h`
 DMAMUX_SOURCE_ADC1 = 41  # from `kinetis.h`
