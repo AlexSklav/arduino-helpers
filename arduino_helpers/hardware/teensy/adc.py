@@ -64,7 +64,7 @@ SC2.ACFE	Compare function enable		31.3.6/661
 '''.strip()
 
 ADC_DESCRIPTIONS = pd.read_csv(io.StringIO(ADC_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-ADC_DESCRIPTIONS['description'] = ADC_DESCRIPTIONS['description'].fillna('')
+ADC_DESCRIPTIONS['description'].fillna('', inplace=True)
 
 # Mask for the channel selection in ADCx_SC1A,
 # useful if you want to get the channel number from ADCx_SC1A
