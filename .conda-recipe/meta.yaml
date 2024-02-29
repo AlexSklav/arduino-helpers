@@ -18,14 +18,14 @@ build:
 
 requirements:
   build:
-    - python >=3.8
+    - python >=3.6
     - path-helpers
     - serial-device
     - numpy
     - pandas
 
   run:
-    - python >=3.8
+    - python >=3.6
     - path-helpers
     - serial-device
     - numpy
