@@ -24,7 +24,7 @@ FTFL	Flash Memory Clock Gate Control	This bit controls the clock gate to the fla
 '''.strip()
 
 SCGC6_DESCRIPTIONS = pd.read_csv(io.StringIO(SCGC6_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-SCGC6_DESCRIPTIONS['description'].fillna('', inplace=True)
+SCGC6_DESCRIPTIONS['description'] = SCGC6_DESCRIPTIONS['description'].fillna('')
 
 
 # Description of System Integration Module:
@@ -35,4 +35,4 @@ DMA	DMA Clock Gate Control	This bit controls the clock gate to the DMA module. 0
 '''.strip()
 
 SCGC7_DESCRIPTIONS = pd.read_csv(io.StringIO(SCGC7_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-SCGC7_DESCRIPTIONS['description'].fillna('', inplace=True)
+SCGC7_DESCRIPTIONS['description'] = SCGC7_DESCRIPTIONS['description'].fillna('')

@@ -11,7 +11,7 @@ MCR.FRZ	Freeze	Allows the timers to be stopped when the device enters the Debug 
 '''.strip()
 
 REGISTERS_DESCRIPTIONS = pd.read_csv(io.StringIO(REGISTERS_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-REGISTERS_DESCRIPTIONS['description'].fillna('', inplace=True)
+REGISTERS_DESCRIPTIONS['description'] = REGISTERS_DESCRIPTIONS['description'].fillna('')
 
 
 # Description of Periodic Interrupt Timer Config registers (37.3.2/904 - 37.3.5/906)
@@ -26,4 +26,4 @@ TFLG.TIF	Timer Interrupt Flag	Sets to 1 at the end of the timer period. Writing 
 '''.strip()
 
 TIMER_CONFIG_DESCRIPTIONS = pd.read_csv(io.StringIO(TIMER_CONFIG_DESCRIPTIONS_TSV), sep='\t').set_index('full_name')
-TIMER_CONFIG_DESCRIPTIONS['description'].fillna('', inplace=True)
+TIMER_CONFIG_DESCRIPTIONS['description'] = TIMER_CONFIG_DESCRIPTIONS['description'].fillna('')
